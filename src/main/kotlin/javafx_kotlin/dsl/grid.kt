@@ -12,11 +12,11 @@ class CellContext(val node: Node, val row: Int, val column: Int,
                   val rowspan: Int = 1, val colspan: Int = 1)
 
 class GridContext {
-    val rows: ArrayList<ContainerContext> = ArrayList()
-    val columns: ArrayList<ContainerContext> = ArrayList()
-    val cells: ArrayList<CellContext> = ArrayList()
-    var columnConstraintsList: ArrayList<ColumnConstraints>? = null
-    var rowConstraintsList: ArrayList<RowConstraints>? = null
+    private val rows: ArrayList<ContainerContext> = ArrayList()
+    private val columns: ArrayList<ContainerContext> = ArrayList()
+    private val cells: ArrayList<CellContext> = ArrayList()
+    private var columnConstraintsList: ArrayList<ColumnConstraints>? = null
+    private var rowConstraintsList: ArrayList<RowConstraints>? = null
 
     fun row(func: ContainerContext.() -> Unit) {
         val context = ContainerContext().apply(func)
@@ -33,18 +33,42 @@ class GridContext {
     }
     
     fun columnConstraints(func: ColumnConstraintsContext.() -> Unit) {
-        val context = ColumnConstraintsContext().apply(func)
-        columnConstraintsList = context.constraintsList
+        columnConstraintsList = ColumnConstraintsContext().apply(func).build()
     }
 
     fun rowConstraints(func: RowConstraintsContext.() -> Unit) {
-        val context = RowConstraintsContext().apply(func)
-        rowConstraintsList = context.constraintsList
+        rowConstraintsList = RowConstraintsContext().apply(func).build()
+    }
+
+    fun build(): GridPane {
+        val grid = GridPane()
+
+        for ((i, row) in rows.withIndex()) {
+            grid.addRow(i, *row.children.toTypedArray())
+        }
+
+        for ((i, columns) in columns.withIndex()) {
+            grid.addColumn(i, *columns.children.toTypedArray())
+        }
+
+        for (cell in cells) {
+            grid.add(cell.node, cell.column, cell.row, cell.colspan, cell.rowspan)
+        }
+
+        if(columnConstraintsList != null) {
+            grid.columnConstraints.setAll(columnConstraintsList)
+        }
+
+        if(rowConstraintsList != null) {
+            grid.rowConstraints.setAll(rowConstraintsList)
+        }
+
+        return grid
     }
 }
 
 class ColumnConstraintsContext {
-    val constraintsList: ArrayList<ColumnConstraints> = ArrayList()
+    private val constraintsList: ArrayList<ColumnConstraints> = ArrayList()
 
     fun constraints() {
         constraintsList.add(ColumnConstraints())
@@ -65,10 +89,14 @@ class ColumnConstraintsContext {
             ColumnConstraints(minWidth, prefWidth, maxWidth,
                 hgrow, halignment, fillWidth))
     }
+
+    fun build(): ArrayList<ColumnConstraints> {
+        return constraintsList
+    }
 }
 
 class RowConstraintsContext {
-    val constraintsList: ArrayList<RowConstraints> = ArrayList()
+    private val constraintsList: ArrayList<RowConstraints> = ArrayList()
 
     fun constraints() {
         constraintsList.add(RowConstraints())
@@ -89,31 +117,12 @@ class RowConstraintsContext {
             RowConstraints(minHeight, prefHeight, maxHeight,
                 vgrow, valignment, fillHeight))
     }
+
+    fun build(): ArrayList<RowConstraints> {
+        return constraintsList
+    }
 }
 
 fun ContainerContext.gridPane(func: GridContext.() -> Unit) {
-    val context = GridContext().apply(func)
-    val grid = GridPane()
-
-    for ((i, row) in context.rows.withIndex()) {
-        grid.addRow(i, *row.children.toTypedArray())
-    }
-
-    for ((i, columns) in context.columns.withIndex()) {
-        grid.addColumn(i, *columns.children.toTypedArray())
-    }
-
-    for (cell in context.cells) {
-        grid.add(cell.node, cell.column, cell.row, cell.colspan, cell.rowspan)
-    }
-    
-    if(context.columnConstraintsList != null) {
-        grid.columnConstraints.setAll(context.columnConstraintsList)
-    }
-
-    if(context.rowConstraintsList != null) {
-        grid.rowConstraints.setAll(context.rowConstraintsList)
-    }
-
-    node(grid)
+    node(GridContext().apply(func).build())
 }
