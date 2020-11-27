@@ -9,6 +9,12 @@ fun createLayout(): Parent {
             label("Hello, World!")
             textField()
             button("OK") { println("Hello!") }
+
+            vbox {
+                label("Hello, World!")
+                textField()
+                button("OK") { println("Hello!") }
+            }
         }
     }
 }

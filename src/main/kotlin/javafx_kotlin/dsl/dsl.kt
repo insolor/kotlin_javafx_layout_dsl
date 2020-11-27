@@ -35,6 +35,12 @@ fun LayoutBuilder.vbox(func: ParentContext.() -> Unit) {
     add(vbox)
 }
 
+fun ParentContext.vbox(func: ParentContext.() -> Unit) {
+    val context = ParentContext().apply(func)
+    val vbox = VBox().apply { children.addAll(context.children) }
+    add(vbox)
+}
+
 fun ParentContext.label(text: String) {
     add(Label(text))
 }
