@@ -8,6 +8,7 @@ import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import javafx.scene.layout.AnchorPane
+import javafx.scene.layout.GridPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 
@@ -45,4 +46,26 @@ fun ParentContext.textField(text: String = "") {
 
 fun ParentContext.button(text: String, eventHandler: EventHandler<ActionEvent>? = null) {
     add(Button(text).apply { onAction = eventHandler })
+}
+
+class GridContext {
+    val rows: ArrayList<ParentContext> = ArrayList()
+
+    fun add(row: ParentContext) {
+        rows.add(row)
+    }
+}
+
+fun ParentContext.gridPane(func: GridContext.() -> Unit) {
+    val context = GridContext().apply(func)
+    val grid = GridPane()
+    for ((i, row) in context.rows.withIndex()) {
+        grid.addRow(i, *row.children.toTypedArray())
+    }
+    add(grid)
+}
+
+fun GridContext.row(func: ParentContext.() -> Unit) {
+    val context = ParentContext().apply(func)
+    add(context)
 }

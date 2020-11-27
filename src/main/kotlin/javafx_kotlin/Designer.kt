@@ -15,6 +15,26 @@ fun createLayout(): Parent {
                 textField()
                 button("OK") { println("Hello!") }
             }
+
+            gridPane {
+                row {
+                    button("1")
+                    button("2")
+                    button("3")
+                }
+
+                row {
+                    button("4")
+                    button("5")
+                    button("6")
+                }
+
+                row {
+                    button("7")
+                    button("8")
+                    button("9")
+                }
+            }
         }
     }
 }
