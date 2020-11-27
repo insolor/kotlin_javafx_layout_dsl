@@ -9,9 +9,8 @@ import javafx.stage.Stage
 
 class App : Application() {
     override fun start(primaryStage: Stage) {
-        val layout = VBox().apply {
-            children.add(Label("Hello, World!"))
-        }
+        val layout = createLayout()
+
         primaryStage.run {
             scene = Scene(layout)
             show()
