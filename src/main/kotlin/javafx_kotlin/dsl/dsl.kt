@@ -7,15 +7,9 @@ import javafx.scene.Parent
 import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
+import javafx.scene.layout.AnchorPane
+import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
-
-class LayoutBuilder {
-    lateinit var root: Parent
-
-    fun add(parent: Parent) {
-         root = parent
-    }
-}
 
 class ParentContext {
     val children: ArrayList<Node> = ArrayList()
@@ -25,19 +19,19 @@ class ParentContext {
     }
 }
 
-fun layout(init: LayoutBuilder.() -> Unit): Parent {
-    return LayoutBuilder().apply(init).root
-}
-
-fun LayoutBuilder.vbox(func: ParentContext.() -> Unit) {
-    val context = ParentContext().apply(func)
-    val vbox = VBox().apply { children.addAll(context.children) }
-    add(vbox)
+fun layout(init: ParentContext.() -> Unit): Parent {
+    return AnchorPane(ParentContext().apply(init).children[0])
 }
 
 fun ParentContext.vbox(func: ParentContext.() -> Unit) {
     val context = ParentContext().apply(func)
     val vbox = VBox().apply { children.addAll(context.children) }
+    add(vbox)
+}
+
+fun ParentContext.hbox(func: ParentContext.() -> Unit) {
+    val context = ParentContext().apply(func)
+    val vbox = HBox().apply { children.addAll(context.children) }
     add(vbox)
 }
 
@@ -50,6 +44,5 @@ fun ParentContext.textField(text: String = "") {
 }
 
 fun ParentContext.button(text: String, eventHandler: EventHandler<ActionEvent>? = null) {
-    val button = Button(text).apply { onAction = eventHandler }
-    add(button)
+    add(Button(text).apply { onAction = eventHandler })
 }

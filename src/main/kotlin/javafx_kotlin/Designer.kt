@@ -10,7 +10,7 @@ fun createLayout(): Parent {
             textField()
             button("OK") { println("Hello!") }
 
-            vbox {
+            hbox {
                 label("Hello, World!")
                 textField()
                 button("OK") { println("Hello!") }
