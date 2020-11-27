@@ -46,20 +46,3 @@ fun ContainerContext.button(text: String, eventHandler: EventHandler<ActionEvent
     node(Button(text).apply { onAction = eventHandler })
 }
 
-class GridContext {
-    val rows: ArrayList<ContainerContext> = ArrayList()
-
-    fun row(func: ContainerContext.() -> Unit) {
-        val context = ContainerContext().apply(func)
-        rows.add(context)
-    }
-}
-
-fun ContainerContext.gridPane(func: GridContext.() -> Unit) {
-    val context = GridContext().apply(func)
-    val grid = GridPane()
-    for ((i, row) in context.rows.withIndex()) {
-        grid.addRow(i, *row.children.toTypedArray())
-    }
-    node(grid)
-}
