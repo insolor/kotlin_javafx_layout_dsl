@@ -3,10 +3,10 @@ package javafx_kotlin
 import javafx.scene.Node
 import javafx.scene.control.Button
 import javafx.scene.control.TextField
-import javafx.scene.layout.AnchorPane
+import javafx.scene.layout.StackPane
 import javafx_kotlin.dsl.*
 
-class View: AnchorPane() {
+class View: StackPane() {
     private lateinit var textField: TextField
     private var buttons: ArrayList<Button> = ArrayList()
 
