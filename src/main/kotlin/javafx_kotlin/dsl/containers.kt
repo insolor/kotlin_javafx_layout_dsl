@@ -11,20 +11,24 @@ import javafx.scene.layout.Pane
 import javafx.scene.layout.VBox
 
 class ContainerContext {
-    val children: ArrayList<Node> = ArrayList()
+    private val children: ArrayList<Node> = ArrayList()
 
     fun node(node: Node) {
         children.add(node)
     }
+
+    fun build(): ArrayList<Node>{
+        return children
+    }
 }
 
 fun layout(init: ContainerContext.() -> Unit): Node {
-    return ContainerContext().apply(init).children[0]
+    return ContainerContext().apply(init).build()[0]
 }
 
 fun ContainerContext.pane(paneCreator: () -> Pane, func: ContainerContext.() -> Unit) {
     val context = ContainerContext().apply(func)
-    val pane = paneCreator().apply { children.addAll(context.children) }
+    val pane = paneCreator().apply { children.addAll(context.build()) }
     node(pane)
 }
 
