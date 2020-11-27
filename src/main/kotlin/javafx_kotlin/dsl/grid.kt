@@ -44,11 +44,11 @@ class GridContext {
         val grid = GridPane()
 
         for ((i, row) in rows.withIndex()) {
-            grid.addRow(i, *row.children.toTypedArray())
+            grid.addRow(i, *row.build().toTypedArray())
         }
 
         for ((i, columns) in columns.withIndex()) {
-            grid.addColumn(i, *columns.children.toTypedArray())
+            grid.addColumn(i, *columns.build().toTypedArray())
         }
 
         for (cell in cells) {
