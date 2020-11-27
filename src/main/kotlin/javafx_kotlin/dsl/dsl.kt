@@ -9,7 +9,7 @@ import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import javafx.scene.layout.*
 
-class ParentContext {
+class ContainerContext {
     val children: ArrayList<Node> = ArrayList()
 
     fun node(node: Node) {
@@ -17,46 +17,46 @@ class ParentContext {
     }
 }
 
-fun layout(init: ParentContext.() -> Unit): Parent {
-    return AnchorPane(ParentContext().apply(init).children[0])
+fun layout(init: ContainerContext.() -> Unit): Parent {
+    return AnchorPane(ContainerContext().apply(init).children[0])
 }
 
-fun ParentContext.pane(paneCreator: () -> Pane, func: ParentContext.() -> Unit) {
-    val context = ParentContext().apply(func)
+fun ContainerContext.pane(paneCreator: () -> Pane, func: ContainerContext.() -> Unit) {
+    val context = ContainerContext().apply(func)
     val pane = paneCreator().apply { children.addAll(context.children) }
     node(pane)
 }
 
-fun ParentContext.vbox(func: ParentContext.() -> Unit) {
+fun ContainerContext.vbox(func: ContainerContext.() -> Unit) {
     pane(::VBox, func)
 }
 
-fun ParentContext.hbox(func: ParentContext.() -> Unit) {
+fun ContainerContext.hbox(func: ContainerContext.() -> Unit) {
     pane(::HBox, func)
 }
 
-fun ParentContext.label(text: String) {
+fun ContainerContext.label(text: String) {
     node(Label(text))
 }
 
-fun ParentContext.textField(text: String = "") {
+fun ContainerContext.textField(text: String = "") {
     node(TextField(text))
 }
 
-fun ParentContext.button(text: String, eventHandler: EventHandler<ActionEvent>? = null) {
+fun ContainerContext.button(text: String, eventHandler: EventHandler<ActionEvent>? = null) {
     node(Button(text).apply { onAction = eventHandler })
 }
 
 class GridContext {
-    val rows: ArrayList<ParentContext> = ArrayList()
+    val rows: ArrayList<ContainerContext> = ArrayList()
 
-    fun row(func: ParentContext.() -> Unit) {
-        val context = ParentContext().apply(func)
+    fun row(func: ContainerContext.() -> Unit) {
+        val context = ContainerContext().apply(func)
         rows.add(context)
     }
 }
 
-fun ParentContext.gridPane(func: GridContext.() -> Unit) {
+fun ContainerContext.gridPane(func: GridContext.() -> Unit) {
     val context = GridContext().apply(func)
     val grid = GridPane()
     for ((i, row) in context.rows.withIndex()) {
