@@ -1,26 +1,24 @@
 package javafx_kotlin
 
 import javafx.scene.Parent
+import javafx.scene.control.TextField
 import javafx_kotlin.dsl.*
 
 fun createLayout(): Parent {
     return layout {
         vbox {
             label("Hello, World!")
-            textField()
-            button("OK") { println("Hello!") }
 
-            hbox {
-                label("Hello, World!")
-                textField()
-                button("OK") { println("Hello!") }
-            }
+            val textField = TextField()
+            node(textField)
+
+            button("C") { textField.text = "" }
 
             gridPane {
                 row {
-                    button("1")
-                    button("2")
-                    button("3")
+                    button("1") { textField.text += "1" }
+                    button("2") { textField.text += "2" }
+                    button("3") { textField.text += "3" }
                 }
 
                 row {
