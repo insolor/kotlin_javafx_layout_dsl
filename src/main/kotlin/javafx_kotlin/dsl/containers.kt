@@ -6,9 +6,7 @@ import javafx.scene.Node
 import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
-import javafx.scene.layout.HBox
-import javafx.scene.layout.Pane
-import javafx.scene.layout.VBox
+import javafx.scene.layout.*
 
 class ContainerContext {
     private val children: ArrayList<Node> = ArrayList()
@@ -32,12 +30,24 @@ fun ContainerContext.pane(paneCreator: () -> Pane, func: ContainerContext.() -> 
     node(pane)
 }
 
-fun ContainerContext.vbox(func: ContainerContext.() -> Unit) {
+fun ContainerContext.vBox(func: ContainerContext.() -> Unit) {
     pane(::VBox, func)
 }
 
-fun ContainerContext.hbox(func: ContainerContext.() -> Unit) {
+fun ContainerContext.hBox(func: ContainerContext.() -> Unit) {
     pane(::HBox, func)
+}
+
+fun ContainerContext.flowPane(func: ContainerContext.() -> Unit) {
+    pane(::FlowPane, func)
+}
+
+fun ContainerContext.tilePane(func: ContainerContext.() -> Unit) {
+    pane(::TilePane, func)
+}
+
+fun ContainerContext.stackPane(func: ContainerContext.() -> Unit) {
+    pane(::StackPane, func)
 }
 
 fun ContainerContext.label(text: String) {

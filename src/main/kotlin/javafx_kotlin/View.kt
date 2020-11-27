@@ -22,7 +22,7 @@ class View: AnchorPane() {
 
     private fun createLayout(): Node {
         return layout {
-            vbox {
+            vBox {
                 label("Hello, World!")
 
                 textField = TextField()
