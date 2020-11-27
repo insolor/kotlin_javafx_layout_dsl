@@ -7,10 +7,10 @@ import javafx.stage.Stage
 
 class App : Application() {
     override fun start(primaryStage: Stage) {
-        val layout = createLayout()
+        val view = View()
 
         primaryStage.run {
-            scene = Scene(layout)
+            scene = Scene(view)
             show()
         }
     }

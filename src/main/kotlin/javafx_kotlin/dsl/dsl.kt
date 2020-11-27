@@ -3,7 +3,6 @@ package javafx_kotlin.dsl
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.scene.Node
-import javafx.scene.Parent
 import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
@@ -17,8 +16,8 @@ class ContainerContext {
     }
 }
 
-fun layout(init: ContainerContext.() -> Unit): Parent {
-    return AnchorPane(ContainerContext().apply(init).children[0])
+fun layout(init: ContainerContext.() -> Unit): Node {
+    return ContainerContext().apply(init).children[0]
 }
 
 fun ContainerContext.pane(paneCreator: () -> Pane, func: ContainerContext.() -> Unit) {
