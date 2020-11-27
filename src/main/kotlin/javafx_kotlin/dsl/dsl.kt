@@ -1,4 +1,4 @@
-package javafx_kotlin
+package javafx_kotlin.dsl
 
 import javafx.event.ActionEvent
 import javafx.event.EventHandler

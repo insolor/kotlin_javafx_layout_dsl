@@ -1,6 +1,7 @@
 package javafx_kotlin
 
 import javafx.scene.Parent
+import javafx_kotlin.dsl.*
 
 fun createLayout(): Parent {
     return layout {
