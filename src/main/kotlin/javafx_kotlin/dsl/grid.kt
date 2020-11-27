@@ -8,8 +8,10 @@ import javafx.scene.layout.GridPane
 import javafx.scene.layout.Priority
 import javafx.scene.layout.RowConstraints
 
-class CellContext(val node: Node, val row: Int, val column: Int,
-                  val rowspan: Int = 1, val colspan: Int = 1)
+class CellContext(
+    val node: Node, val row: Int, val column: Int,
+    val rowspan: Int = 1, val colspan: Int = 1
+)
 
 class GridContext {
     private val rows: ArrayList<ContainerContext> = ArrayList()
@@ -31,7 +33,7 @@ class GridContext {
     fun cell(node: Node, row: Int, column: Int, rowspan: Int = 1, colspan: Int = 1) {
         cells.add(CellContext(node, row, column, rowspan, colspan))
     }
-    
+
     fun columnConstraints(func: ColumnConstraintsContext.() -> Unit) {
         columnConstraintsList = ColumnConstraintsContext().apply(func).build()
     }
@@ -55,11 +57,11 @@ class GridContext {
             grid.add(cell.node, cell.column, cell.row, cell.colspan, cell.rowspan)
         }
 
-        if(columnConstraintsList != null) {
+        if (columnConstraintsList != null) {
             grid.columnConstraints.setAll(columnConstraintsList)
         }
 
-        if(rowConstraintsList != null) {
+        if (rowConstraintsList != null) {
             grid.rowConstraints.setAll(rowConstraintsList)
         }
 
@@ -82,12 +84,17 @@ class ColumnConstraintsContext {
         constraintsList.add(ColumnConstraints(minWidth, prefWidth, maxWidth))
     }
 
-    fun constraints(minWidth: Double, prefWidth: Double, maxWidth: Double,
-                    hgrow: Priority, halignment: HPos, fillWidth: Boolean) {
-        
+    fun constraints(
+        minWidth: Double, prefWidth: Double, maxWidth: Double,
+        hgrow: Priority, halignment: HPos, fillWidth: Boolean
+    ) {
+
         constraintsList.add(
-            ColumnConstraints(minWidth, prefWidth, maxWidth,
-                hgrow, halignment, fillWidth))
+            ColumnConstraints(
+                minWidth, prefWidth, maxWidth,
+                hgrow, halignment, fillWidth
+            )
+        )
     }
 
     fun build(): ArrayList<ColumnConstraints> {
@@ -110,12 +117,17 @@ class RowConstraintsContext {
         constraintsList.add(RowConstraints(minHeight, prefHeight, maxHeight))
     }
 
-    fun constraints(minHeight: Double, prefHeight: Double, maxHeight: Double,
-                    vgrow: Priority, valignment: VPos, fillHeight: Boolean) {
+    fun constraints(
+        minHeight: Double, prefHeight: Double, maxHeight: Double,
+        vgrow: Priority, valignment: VPos, fillHeight: Boolean
+    ) {
 
         constraintsList.add(
-            RowConstraints(minHeight, prefHeight, maxHeight,
-                vgrow, valignment, fillHeight))
+            RowConstraints(
+                minHeight, prefHeight, maxHeight,
+                vgrow, valignment, fillHeight
+            )
+        )
     }
 
     fun build(): ArrayList<RowConstraints> {

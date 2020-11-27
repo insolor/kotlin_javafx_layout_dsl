@@ -6,12 +6,12 @@ import javafx.scene.control.TextField
 import javafx.scene.layout.StackPane
 import javafx_kotlin.dsl.*
 
-class View: StackPane() {
+class View : StackPane() {
     private lateinit var textField: TextField
     private var buttons: ArrayList<Button> = ArrayList()
 
     init {
-        for( i in (1..9)) {
+        for (i in (1..9)) {
             val button = Button(i.toString())
             button.setOnAction { textField.text += i.toString() }
             buttons.add(button)

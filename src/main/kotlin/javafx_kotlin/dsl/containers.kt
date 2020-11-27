@@ -15,7 +15,7 @@ class ContainerContext {
         children.add(node)
     }
 
-    fun build(): ArrayList<Node>{
+    fun build(): ArrayList<Node> {
         return children
     }
 }
