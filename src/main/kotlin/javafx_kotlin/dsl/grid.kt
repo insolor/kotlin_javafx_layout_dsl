@@ -20,8 +20,8 @@ class GridContext {
     private val rows: ArrayList<ContainerContext> = ArrayList()
     private val columns: ArrayList<ContainerContext> = ArrayList()
     private val cells: ArrayList<CellContext> = ArrayList()
-    private var columnConstraintsList: ArrayList<ColumnConstraints>? = null
-    private var rowConstraintsList: ArrayList<RowConstraints>? = null
+    private var columnConstraints: ArrayList<ColumnConstraints>? = null
+    private var rowConstraints: ArrayList<RowConstraints>? = null
 
     fun row(func: ContainerContext.() -> Unit) {
         val context = ContainerContext().apply(func)
@@ -38,11 +38,11 @@ class GridContext {
     }
 
     fun columnConstraints(func: ColumnConstraintsContext.() -> Unit) {
-        columnConstraintsList = ColumnConstraintsContext().apply(func).build()
+        columnConstraints = ColumnConstraintsContext().apply(func).build()
     }
 
     fun rowConstraints(func: RowConstraintsContext.() -> Unit) {
-        rowConstraintsList = RowConstraintsContext().apply(func).build()
+        rowConstraints = RowConstraintsContext().apply(func).build()
     }
 
     fun build(): GridPane {
@@ -62,12 +62,12 @@ class GridContext {
                 add(cell.node, cell.column, cell.row, cell.colspan, cell.rowspan)
             }
 
-            if (columnConstraintsList != null) {
-                columnConstraints.setAll(columnConstraintsList)
+            if (this@GridContext.columnConstraints != null) {
+                columnConstraints.setAll(this@GridContext.columnConstraints)
             }
 
-            if (rowConstraintsList != null) {
-                rowConstraints.setAll(rowConstraintsList)
+            if (this@GridContext.rowConstraints != null) {
+                rowConstraints.setAll(this@GridContext.rowConstraints)
             }
         }
     }
