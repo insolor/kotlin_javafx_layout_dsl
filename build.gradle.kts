@@ -9,7 +9,8 @@ group = "me.insolor"
 version = "1.0-SNAPSHOT"
 
 application {
-    mainClass.set("javafx_kotlin.App")
+    mainClass.set("javafx_kotlin.App") // Kotlin app main class
+    // mainClass.set("javafx_kotlin.JavaApp") // Java app main class
 }
 
 repositories {
