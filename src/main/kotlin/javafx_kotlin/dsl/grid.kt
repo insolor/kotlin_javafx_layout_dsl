@@ -13,24 +13,17 @@ class CellContext(
     val rowspan: Int = 1, val colspan: Int = 1
 )
 
-class GridContext {
-    var vgap: Double = 0.0
-    var hgap: Double = 0.0
-
+class GridContext: GridPane() {
     private val rows: ArrayList<ContainerContext> = ArrayList()
     private val columns: ArrayList<ContainerContext> = ArrayList()
     private val cells: ArrayList<CellContext> = ArrayList()
-    private var columnConstraints: ArrayList<ColumnConstraints>? = null
-    private var rowConstraints: ArrayList<RowConstraints>? = null
 
     fun row(func: ContainerContext.() -> Unit) {
-        val context = ContainerContext().apply(func)
-        rows.add(context)
+        rows.add(ContainerContext().apply(func))
     }
 
     fun column(func: ContainerContext.() -> Unit) {
-        val context = ContainerContext().apply(func)
-        columns.add(context)
+        columns.add(ContainerContext().apply(func))
     }
 
     fun cell(node: Node, row: Int, column: Int, rowspan: Int = 1, colspan: Int = 1) {
@@ -38,38 +31,27 @@ class GridContext {
     }
 
     fun columnConstraints(func: ColumnConstraintsContext.() -> Unit) {
-        columnConstraints = ColumnConstraintsContext().apply(func).build()
+        columnConstraints.setAll(ColumnConstraintsContext().apply(func).build())
     }
 
     fun rowConstraints(func: RowConstraintsContext.() -> Unit) {
-        rowConstraints = RowConstraintsContext().apply(func).build()
+        rowConstraints.setAll(RowConstraintsContext().apply(func).build())
     }
 
     fun build(): GridPane {
-        return GridPane().apply {
-            vgap = this@GridContext.vgap
-            hgap = this@GridContext.hgap
-
-            for ((i, row) in rows.withIndex()) {
-                addRow(i, *row.build().toTypedArray())
-            }
-
-            for ((i, columns) in columns.withIndex()) {
-                addColumn(i, *columns.build().toTypedArray())
-            }
-
-            for (cell in cells) {
-                add(cell.node, cell.column, cell.row, cell.colspan, cell.rowspan)
-            }
-
-            if (this@GridContext.columnConstraints != null) {
-                columnConstraints.setAll(this@GridContext.columnConstraints)
-            }
-
-            if (this@GridContext.rowConstraints != null) {
-                rowConstraints.setAll(this@GridContext.rowConstraints)
-            }
+        for ((i, row) in rows.withIndex()) {
+            addRow(i, *row.build().toTypedArray())
         }
+
+        for ((i, columns) in columns.withIndex()) {
+            addColumn(i, *columns.build().toTypedArray())
+        }
+
+        for (cell in cells) {
+            add(cell.node, cell.column, cell.row, cell.colspan, cell.rowspan)
+        }
+
+        return this;
     }
 }
 
@@ -125,7 +107,6 @@ class RowConstraintsContext {
         minHeight: Double, prefHeight: Double, maxHeight: Double,
         vgrow: Priority, valignment: VPos, fillHeight: Boolean
     ) {
-
         constraintsList.add(
             RowConstraints(
                 minHeight, prefHeight, maxHeight,
