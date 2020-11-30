@@ -1,18 +1,17 @@
 package javafx_kotlin.dsl
 
-import javafx.event.ActionEvent
-import javafx.event.EventHandler
 import javafx.geometry.Orientation
 import javafx.scene.Node
-import javafx.scene.control.Button
-import javafx.scene.control.Label
-import javafx.scene.control.TextField
 import javafx.scene.layout.*
 
-class ContainerContext {
+interface ContainerContext {
+    fun node(node: Node)
+}
+
+class MultipleItemContainer : ContainerContext {
     private val children: ArrayList<Node> = ArrayList()
 
-    fun node(node: Node) {
+    override fun node(node: Node) {
         children.add(node)
     }
 
@@ -21,26 +20,38 @@ class ContainerContext {
     }
 }
 
-fun layout(init: ContainerContext.() -> Unit): Node {
-    return ContainerContext().apply(init).build()[0]
+class SingleItemContainer: ContainerContext {
+    private lateinit var item: Node
+    
+    override fun node(node: Node) {
+        item = node
+    }
+
+    fun build(): Node {
+        return item
+    }
 }
 
-fun ContainerContext.pane(paneCreator: () -> Pane, func: ContainerContext.() -> Unit) {
-    val context = ContainerContext().apply(func)
-    val pane = paneCreator().apply { children.addAll(context.build()) }
-    node(pane)
+/**
+ * Root layout container can contain only one item (other container or control).
+ */
+fun layout(init: SingleItemContainer.() -> Unit): Node {
+    return SingleItemContainer().apply(init).build()
 }
 
-fun ContainerContext.pane(pane: Pane, func: ContainerContext.() -> Unit) {
-    val context = ContainerContext().apply(func)
+/**
+ * Panes like VBox, HBox, FlowPane, etc., can be placed in any container type and contain multiple items.
+ */
+fun ContainerContext.pane(pane: Pane, func: MultipleItemContainer.() -> Unit) {
+    val context = MultipleItemContainer().apply(func)
     node(pane.apply { children.addAll(context.build()) })
 }
 
-fun ContainerContext.vBox(spacing: Double = 0.0, func: ContainerContext.() -> Unit) {
+fun ContainerContext.vBox(spacing: Double = 0.0, func: MultipleItemContainer.() -> Unit) {
     pane(VBox(spacing), func)
 }
 
-fun ContainerContext.hBox(spacing: Double = 0.0, func: ContainerContext.() -> Unit) {
+fun ContainerContext.hBox(spacing: Double = 0.0, func: MultipleItemContainer.() -> Unit) {
     pane(HBox(spacing), func)
 }
 
@@ -48,27 +59,15 @@ fun ContainerContext.flowPane(
     orientation: Orientation = Orientation.HORIZONTAL,
     hgap: Double = 0.0,
     vgap: Double = 0.0,
-    func: ContainerContext.() -> Unit
+    func: MultipleItemContainer.() -> Unit
 ) {
     pane(FlowPane(orientation, hgap, vgap), func)
 }
 
-fun ContainerContext.tilePane(func: ContainerContext.() -> Unit) {
+fun ContainerContext.tilePane(func: MultipleItemContainer.() -> Unit) {
     pane(TilePane(), func)
 }
 
-fun ContainerContext.stackPane(func: ContainerContext.() -> Unit) {
+fun ContainerContext.stackPane(func: MultipleItemContainer.() -> Unit) {
     pane(StackPane(), func)
-}
-
-fun ContainerContext.label(text: String) {
-    node(Label(text))
-}
-
-fun ContainerContext.textField(text: String = "") {
-    node(TextField(text))
-}
-
-fun ContainerContext.button(text: String, eventHandler: EventHandler<ActionEvent>? = null) {
-    node(Button(text).apply { onAction = eventHandler })
 }

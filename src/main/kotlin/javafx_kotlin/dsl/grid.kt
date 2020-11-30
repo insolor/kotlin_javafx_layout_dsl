@@ -11,16 +11,16 @@ class CellContext(
 )
 
 class GridContext: GridPane() {
-    private val rows: ArrayList<ContainerContext> = ArrayList()
-    private val columns: ArrayList<ContainerContext> = ArrayList()
+    private val rows: ArrayList<MultipleItemContainer> = ArrayList()
+    private val columns: ArrayList<MultipleItemContainer> = ArrayList()
     private val cells: ArrayList<CellContext> = ArrayList()
 
-    fun row(func: ContainerContext.() -> Unit) {
-        rows.add(ContainerContext().apply(func))
+    fun row(func: MultipleItemContainer.() -> Unit) {
+        rows.add(MultipleItemContainer().apply(func))
     }
 
-    fun column(func: ContainerContext.() -> Unit) {
-        columns.add(ContainerContext().apply(func))
+    fun column(func: MultipleItemContainer.() -> Unit) {
+        columns.add(MultipleItemContainer().apply(func))
     }
 
     fun cell(node: Node, row: Int, column: Int, rowspan: Int = 1, colspan: Int = 1) {
