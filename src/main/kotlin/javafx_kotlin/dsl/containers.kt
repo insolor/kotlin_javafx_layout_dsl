@@ -46,11 +46,11 @@ fun ContainerContext.hBox(spacing: Double = 0.0, func: ContainerContext.() -> Un
 
 fun ContainerContext.flowPane(
     orientation: Orientation = Orientation.HORIZONTAL,
-    hGap: Double = 0.0,
-    vGap: Double = 0.0,
+    hgap: Double = 0.0,
+    vgap: Double = 0.0,
     func: ContainerContext.() -> Unit
 ) {
-    pane(FlowPane(orientation, hGap, vGap), func)
+    pane(FlowPane(orientation, hgap, vgap), func)
 }
 
 fun ContainerContext.tilePane(func: ContainerContext.() -> Unit) {

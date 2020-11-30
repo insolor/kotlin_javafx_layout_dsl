@@ -31,8 +31,8 @@ class View : StackPane() {
                 node(textField)
 
                 gridPane {
-                    hGap = 2.0
-                    vGap = 2.0
+                    hgap = 2.0
+                    vgap = 2.0
 
                     for (i in (0..2)) {
                         row {
