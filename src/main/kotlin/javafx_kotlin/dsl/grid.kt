@@ -14,6 +14,9 @@ class CellContext(
 )
 
 class GridContext {
+    var vGap: Double = 0.0
+    var hGap: Double = 0.0
+
     private val rows: ArrayList<ContainerContext> = ArrayList()
     private val columns: ArrayList<ContainerContext> = ArrayList()
     private val cells: ArrayList<CellContext> = ArrayList()
@@ -44,6 +47,9 @@ class GridContext {
 
     fun build(): GridPane {
         return GridPane().apply {
+            vgap = vGap
+            hgap = hGap
+
             for ((i, row) in rows.withIndex()) {
                 addRow(i, *row.build().toTypedArray())
             }

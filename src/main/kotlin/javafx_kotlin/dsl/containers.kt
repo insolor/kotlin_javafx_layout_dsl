@@ -2,6 +2,7 @@ package javafx_kotlin.dsl
 
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
+import javafx.geometry.Orientation
 import javafx.scene.Node
 import javafx.scene.control.Button
 import javafx.scene.control.Label
@@ -30,24 +31,34 @@ fun ContainerContext.pane(paneCreator: () -> Pane, func: ContainerContext.() -> 
     node(pane)
 }
 
-fun ContainerContext.vBox(func: ContainerContext.() -> Unit) {
-    pane(::VBox, func)
+fun ContainerContext.pane(pane: Pane, func: ContainerContext.() -> Unit) {
+    val context = ContainerContext().apply(func)
+    node(pane.apply { children.addAll(context.build()) })
 }
 
-fun ContainerContext.hBox(func: ContainerContext.() -> Unit) {
-    pane(::HBox, func)
+fun ContainerContext.vBox(spacing: Double = 0.0, func: ContainerContext.() -> Unit) {
+    pane(VBox(spacing), func)
 }
 
-fun ContainerContext.flowPane(func: ContainerContext.() -> Unit) {
-    pane(::FlowPane, func)
+fun ContainerContext.hBox(spacing: Double = 0.0, func: ContainerContext.() -> Unit) {
+    pane(HBox(spacing), func)
+}
+
+fun ContainerContext.flowPane(
+    orientation: Orientation = Orientation.HORIZONTAL,
+    hGap: Double = 0.0,
+    vGap: Double = 0.0,
+    func: ContainerContext.() -> Unit
+) {
+    pane(FlowPane(orientation, hGap, vGap), func)
 }
 
 fun ContainerContext.tilePane(func: ContainerContext.() -> Unit) {
-    pane(::TilePane, func)
+    pane(TilePane(), func)
 }
 
 fun ContainerContext.stackPane(func: ContainerContext.() -> Unit) {
-    pane(::StackPane, func)
+    pane(StackPane(), func)
 }
 
 fun ContainerContext.label(text: String) {

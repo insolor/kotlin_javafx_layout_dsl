@@ -1,5 +1,6 @@
 package javafx_kotlin
 
+import javafx.geometry.Insets
 import javafx.scene.Node
 import javafx.scene.control.Button
 import javafx.scene.control.TextField
@@ -11,6 +12,7 @@ class View : StackPane() {
     private var buttons: ArrayList<Button> = ArrayList()
 
     init {
+        padding = Insets(5.0)
         for (i in (1..9)) {
             val button = Button(i.toString())
             button.setOnAction { textField.text += i.toString() }
@@ -22,13 +24,16 @@ class View : StackPane() {
 
     private fun createLayout(): Node {
         return layout {
-            vBox {
+            vBox(4.0) {
                 label("Hello, World!")
 
                 textField = TextField()
                 node(textField)
 
                 gridPane {
+                    hGap = 2.0
+                    vGap = 2.0
+
                     for (i in (0..2)) {
                         row {
                             for (j in (0..2)) {
