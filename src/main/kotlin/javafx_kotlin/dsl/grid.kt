@@ -43,29 +43,27 @@ class GridContext {
     }
 
     fun build(): GridPane {
-        val grid = GridPane()
+        return GridPane().apply {
+            for ((i, row) in rows.withIndex()) {
+                addRow(i, *row.build().toTypedArray())
+            }
 
-        for ((i, row) in rows.withIndex()) {
-            grid.addRow(i, *row.build().toTypedArray())
+            for ((i, columns) in columns.withIndex()) {
+                addColumn(i, *columns.build().toTypedArray())
+            }
+
+            for (cell in cells) {
+                add(cell.node, cell.column, cell.row, cell.colspan, cell.rowspan)
+            }
+
+            if (columnConstraintsList != null) {
+                columnConstraints.setAll(columnConstraintsList)
+            }
+
+            if (rowConstraintsList != null) {
+                rowConstraints.setAll(rowConstraintsList)
+            }
         }
-
-        for ((i, columns) in columns.withIndex()) {
-            grid.addColumn(i, *columns.build().toTypedArray())
-        }
-
-        for (cell in cells) {
-            grid.add(cell.node, cell.column, cell.row, cell.colspan, cell.rowspan)
-        }
-
-        if (columnConstraintsList != null) {
-            grid.columnConstraints.setAll(columnConstraintsList)
-        }
-
-        if (rowConstraintsList != null) {
-            grid.rowConstraints.setAll(rowConstraintsList)
-        }
-
-        return grid
     }
 }
 
