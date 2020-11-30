@@ -14,9 +14,9 @@ class View : StackPane() {
     init {
         padding = Insets(5.0)
         for (i in (1..9)) {
-            val button = Button(i.toString())
-            button.setOnAction { textField.text += i.toString() }
-            buttons.add(button)
+            buttons.add(Button(i.toString()).apply {
+                setOnAction { textField.text += i.toString() }
+            })
         }
 
         children.add(createLayout())
