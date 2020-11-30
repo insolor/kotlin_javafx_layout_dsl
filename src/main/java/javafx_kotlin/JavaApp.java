@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * An example of java class which uses kotlin code to create GUI<br/>
+ * An example of a java class which uses kotlin code to create GUI.<br/>
  * Equivalent to javafx_kotlin/App.kt class/module
  */
 public class JavaApp extends Application {

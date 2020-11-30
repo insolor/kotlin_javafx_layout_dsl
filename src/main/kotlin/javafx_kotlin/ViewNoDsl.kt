@@ -10,7 +10,7 @@ import javafx.scene.layout.StackPane
 import javafx.scene.layout.VBox
 
 /**
- * An example how to create the same GUI layout as in View.kt in pure Kotlin without DSL
+ * An example of how to create the same GUI layout as in View.kt in pure Kotlin without DSL
  */
 class ViewNoDsl : StackPane() {
     private lateinit var textField: TextField
