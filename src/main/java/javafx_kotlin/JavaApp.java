@@ -1,7 +1,6 @@
 package javafx_kotlin;
 
 import javafx.application.Application;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -12,9 +11,8 @@ import javafx.stage.Stage;
 public class JavaApp extends Application {
     @Override
     public void start(Stage primaryStage) {
-        Parent layout = new View();
-
-        Scene scene = new Scene(layout);
+        var layout = new ViewTornadoFx();
+        var scene = new Scene(layout);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

@@ -25,7 +25,7 @@ class View : StackPane() {
     private fun createLayout(): Node {
         return layout {
             vBox(4.0) {
-                label("Hello, World!")
+                label("Hello, DSL!")
 
                 textField = TextField()
                 node(textField)

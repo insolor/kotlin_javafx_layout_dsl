@@ -30,7 +30,7 @@ class ViewNoDsl : StackPane() {
     private fun createLayout(): Node {
         return VBox(4.0).apply {
             children.run {
-                add(Label("Hello, World!"))
+                add(Label("Hello, Kotlin!"))
 
                 textField = TextField()
                 add(textField)

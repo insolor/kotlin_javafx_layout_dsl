@@ -7,7 +7,7 @@ import javafx.stage.Stage
 
 class App : Application() {
     override fun start(primaryStage: Stage) {
-        val view = View()
+        val view = ViewTornadoFx()
 
         primaryStage.run {
             scene = Scene(view)

@@ -38,7 +38,7 @@ public class ViewJava extends StackPane {
         VBox vBox = new VBox(4.0);
         ObservableList<Node> vBoxChildren = vBox.getChildren();
 
-        vBoxChildren.add(new Label("Hello, World!"));
+        vBoxChildren.add(new Label("Hello, Java!"));
 
         textField = new TextField();
         vBoxChildren.add(textField);
